@@ -1,65 +1,95 @@
-# G29_Uno
-Use Logitech G29 (and similar) pedals as a standalone USB  controller using:  1) Arduino Uno as an analog reader  2) Python bridge script  3) vJoy virtual joystick device on Windows, bypassing the need for Logitech Hub software, steering base, or any proprietary wiring. 
+# G29_Uno – Logitech G29 Pedals on Arduino Uno via vJoy
 
-Other g29 usb conversion with microcontroller boards have worked, this will allow Uno, COM and serial board to use the g29
+Use Logitech **G29** (and similar) pedals as a **standalone USB controller** using:
 
+1. An **Arduino Uno** as an analog reader  
+2. A **Python** bridge script  
+3. A **vJoy** virtual joystick device on Windows  
 
-Hardware Required
-  Logitech G29 (or G25/G27/G920-style) 3-pedal set
-  Arduino Uno (original or compatible)
-  Female DB9 (DE-9) breakout / adapter
-  USB cable for the Uno
-  A few jumper wires
+This bypasses Logitech G Hub, the original steering base, and any proprietary wiring. Other G29–to–microcontroller boards exist, but this project focuses on doing it with a simple **Uno** over **COM/serial**.
 
-Steps. 
+---
 
-1. Wiring
+## Hardware Required
 
-Looking into the female DB9 connector (holes facing you, screw posts left/right):
-(looking carefully on the front will reveal small numbers by their respective pinholes) 
+- Logitech **G29** (or G25 / G27 / G920-style) 3-pedal set  
+- **Arduino Uno** (original or compatible)  
+- **Female DB9 (DE-9)** breakout / adapter  
+- USB cable for the Uno  
+- A few jumper wires  
 
-Top row (left → right): 1 2 3 4 5
-Bottom row (left → right): 6 7 8 9
+---
 
-Typical pinout (G29 style):
-Serial:G29 :      Uno 
-  1    Ground     GND
-  2    Throttle   A2
-  3    Brake      A1
-  4    Clutch     A0 
-  6    power      5V
-  9    power      5V 
+## 1. Wiring
 
-You can choose ot use a breakout conenctor or solder wires directly onto the female DB9 serial connector. 
+Looking into the **female DB9 connector** (holes facing you, screw posts left/right):
 
-So on your DB9 breakout:
-Pin 1 → Uno GND
-Pin 2 → Uno A2
-Pin 3 → Uno A1
-Pin 4 → Uno A0
-Pin 6 → uno 5v 
-Pin 9 → Uno 5V
+> If you look carefully at the plastic around the pins, you’ll see small numbers by each pinhole.
 
-2. Arduino Setup 
+- Top row (left → right): **1 2 3 4 5**  
+- Bottom row (left → right): **6 7 8 9**
 
-Install Arduino IDE and drivers, plug your board into your computer
-Open G29_Uno_Pedals.ino in the IDE.
+Typical G29 pedal pinout used here:
 
-Make sure:
-  Tools → Board → Arduino Uno
-  Tools → Port → the COM port for your Uno
+| DB9 Pin | Function | Uno Pin |
+|---------|----------|---------|
+| 1       | Ground   | GND     |
+| 2       | Throttle | A2      |
+| 3       | Brake    | A1      |
+| 4       | Clutch   | A0      |
+| 6       | +5V      | 5V      |
+| 9       | +5V      | 5V      |
 
-Click compile, and upload sketch 
-(Optional) Test in Tools → Serial Plotter @ 115200: you should see three lines moving when you press the pedals.
+You can use a DB9 breakout or solder wires directly onto a female DB9 connector.
 
-3. Windows and vJoy setup
-   
-Download and install vJoy
-https://www.vjoy.org/download-for-windows
-(make sure Device 1 is enabled with at least 3 axes [xyz]. Apply/Save settings.) 
+**DB9 → Uno summary:**
 
-You will need to install these repos in your directory: 
->>pip install pyserial pyvjoy
+- Pin **1 →** Uno **GND**  
+- Pin **2 →** Uno **A2** (Throttle)  
+- Pin **3 →** Uno **A1** (Brake)  
+- Pin **4 →** Uno **A0** (Clutch)  
+- Pin **6 →** Uno **5V**  
+- Pin **9 →** Uno **5V**  
+
+> You technically only need one 5V pin, but tying both 6 and 9 to 5V is common.
+
+---
+
+## 2. Arduino Setup
+
+1. Install the **Arduino IDE** and any necessary drivers.  
+2. Plug your **Arduino Uno** into your computer.  
+3. Open `G29_Uno_Pedals.ino` in the IDE.  
+
+In the Arduino IDE:
+
+- Go to **Tools → Board → Arduino Uno**  
+- Go to **Tools → Port →** select the COM port for your Uno  
+
+Then:
+
+- Click **Verify/Compile**, then **Upload** the sketch.  
+
+> Optional: open **Tools → Serial Plotter** at **115200 baud** and press the pedals. You should see three lines moving if everything is wired correctly.
+
+---
+
+## 3. Windows & vJoy Setup
+
+1. Download and install **vJoy** for Windows:  
+   - <https://www.vjoy.org/download-for-windows>
+2. Open the vJoy configuration tool and:
+   - Ensure **Device 1** is **enabled**  
+   - Enable at least **3 axes** (X, Y, Z)  
+   - Click **Apply/Save**  
+
+### Python Dependencies
+
+From your project directory (or globally), install the required Python packages:
+
+```bash
+pip install pyserial pyvjoy
+```
 
 g29_pedals_vjoy.py opens the Uno’s serial port, parses the pedal values, and writes them into vJoy axes.
 
