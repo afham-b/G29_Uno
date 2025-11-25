@@ -1,7 +1,7 @@
 # G29_Uno
-Use Logitech G29 (and similar) pedals as a standalone USB  controller using:  1) Arduino Uno as an analog reader  2) Python bridge script  3) vJoy virtual joystick device on Windows, bypassing the need for Logitech Hub software, or using steering base or any proprietary wiring. 
+Use Logitech G29 (and similar) pedals as a standalone USB  controller using:  1) Arduino Uno as an analog reader  2) Python bridge script  3) vJoy virtual joystick device on Windows, bypassing the need for Logitech Hub software, steering base, or any proprietary wiring. 
 
-Other g29 serial to microcontroller boards have worked, but I only had an uno to make this with com and serial. 
+Other g29 usb conversion with microcontroller boards have worked, this will allow Uno, COM and serial board to use the g29
 
 
 Hardware Required
