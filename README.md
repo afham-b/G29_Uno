@@ -121,28 +121,35 @@ Connected to vJoy device 1
 ```
 
 ### Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
-Press each pedal and verify the corresponding axes move.
+    Press each pedal and verify the corresponding axes move.
 
-5. Calibration & Tweaks
+---
 
-Inversion:
+## 5. Calibration & Tweaks
+
+**Inversion:**
+
 If pedals feel reversed (full press reads as low value), uncomment the inversion lines in the Arduino sketch:
+
+```bash
 clutchFilt   = 1023 - clutchFilt;
 brakeFilt    = 1023 - brakeFilt;
 throttleFilt = 1023 - throttleFilt;
+```
 
-
-Dead zones & curves:
+**Dead zones & curves:**
 You can implement dead zones or non-linear curves either in:
 The Arduino sketch (edit raw values), or
 The Python script (before mapping to vJoy).
 
-Axis mapping:
+**Axis mapping:**
 Change which vJoy axis each pedal uses by editing:
 
+```bash
 j.data.wAxisX = throttle_v
 j.data.wAxisY = brake_v
 j.data.wAxisZ = clutch_v
+```
 
 6. Troubleshooting
 
