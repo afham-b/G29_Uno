@@ -59,11 +59,68 @@ https://www.vjoy.org/download-for-windows
 (make sure Device 1 is enabled with at least 3 axes [xyz]. Apply/Save settings.) 
 
 You will need to install these repos in your directory: 
-pip install pyserial pyvjoy
+>>pip install pyserial pyvjoy
 
 g29_pedals_vjoy.py opens the Uno’s serial port, parses the pedal values, and writes them into vJoy axes.
 
 You will need to edit the com port line in line 4 of the python script to match where your Uno is plugged in. 
+COM_PORT must match the Uno’s COM port (check in Arduino IDE under Tools → Port).
+Make sure the Arduino IDE’s Serial Monitor/Plotter is closed before running the script — only one program can open the COM port at a time.
 
+4. How to Run
+
+Plug in the Uno with the G29 pedals connected.
+Confirm the COM port in Arduino IDE (Tools → Port), then update COM_PORT in g29_pedals_vjoy.py.
+Close the Arduino IDE (or at least close Serial Monitor/Plotter).
+From a terminal in the project folder:
+
+python g29_pedals_vjoy.py
+
+You should see:
+Opening serial on COMx
+Connected to vJoy device 1
+
+
+Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
+Press each pedal and verify the corresponding axes move.
+
+5. Calibration & Tweaks
+
+Inversion:
+If pedals feel reversed (full press reads as low value), uncomment the inversion lines in the Arduino sketch:
+clutchFilt   = 1023 - clutchFilt;
+brakeFilt    = 1023 - brakeFilt;
+throttleFilt = 1023 - throttleFilt;
+
+
+Dead zones & curves:
+You can implement dead zones or non-linear curves either in:
+The Arduino sketch (edit raw values), or
+The Python script (before mapping to vJoy).
+
+Axis mapping:
+Change which vJoy axis each pedal uses by editing:
+
+j.data.wAxisX = throttle_v
+j.data.wAxisY = brake_v
+j.data.wAxisZ = clutch_v
+
+6. Troubleshooting
+
+Python error: “could not open port ‘COMx’: PermissionError(13)”
+Another program is using the COM port (likely Arduino Serial Monitor/Plotter). Close it and try again.
+
+No movement in Game Controllers
+Confirm the Python script is running without errors.
+Make sure vJoy Device 1 is enabled and has X/Y/Z axes.
+Check wiring on DB9 pins and Uno A0–A2/5V/GND.
+
+Serial Monitor shows nothing
+Confirm upload succeeded and Serial.begin(115200) matches the baud in Serial Monitor.
+Make sure the correct COM port is selected.
+
+License
+Use, modify, and share as you like.
+If you fork this or improve the mapping/calibration, feel free to open PRs or notes so others can benefit.
 
 
