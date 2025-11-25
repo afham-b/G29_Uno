@@ -127,22 +127,6 @@ Connected to vJoy device 1
 
 ## 5. Calibration & Tweaks
 
-**Inversion:**
-
-If pedals feel reversed (full press reads as low value), uncomment the inversion lines in the Arduino sketch:
-Using the Arduino IDE to modify `G29_Uno_Pedals.ino` , add in these lines: 
-
-```bash
-clutchFilt   = 1023 - clutchFilt;
-brakeFilt    = 1023 - brakeFilt;
-throttleFilt = 1023 - throttleFilt;
-```
-
-**Dead zones & curves:**
-You can implement dead zones or non-linear curves either in:
-The Arduino sketch (edit raw values), or
-The Python script (before mapping to vJoy).
-
 **Axis mapping:**
 Change which vJoy axis each pedal uses by editing:
 
@@ -151,6 +135,52 @@ j.data.wAxisX = throttle_v
 j.data.wAxisY = brake_v
 j.data.wAxisZ = clutch_v
 ```
+
+**Inversion:**
+
+The map_axis function inside of `g29_pedals_vjoy.py` should detect and invert for pedals that are inverted, but in the case this fails: 
+If pedals feel reversed (full press reads as low value), uncomment the inversion lines in the Arduino sketch:
+Using the Arduino IDE to modify `G29_Uno_Pedals.ino` , add in these lines: 
+
+```bash
+clutchFilt   = 1023 - clutchFilt;
+brakeFilt    = 1023 - brakeFilt;
+throttleFilt = 1023 - throttleFilt;
+```
+>Similair software like assetto corsa has invert options in the control setting you can turn on to mitigate this issue. 
+
+**Dead zones & curves:**
+You can implement dead zones or non-linear curves either in:
+The Arduino sketch (edit raw values), or
+The Python script (before mapping to vJoy).
+
+Within `g29_pedals_vjoy.py` there is deadzone function that zeros all input below 2%, 
+```bash
+def apply_deadzone(v, threshold=0.02):
+```
+>You can increase or decrese this parameter for a differnt or **NO** deadzone. 
+
+**Calibration:**
+Min and Max valeus for each pedal can be manually recorded using the Arduino IDE by compiling -> uploading the `G29_Uno_Pedals.ino` Sketch and opening Tool->Serial monitor 
+
+```bash
+C: X  B: x  T: X 
+```
+> Your output for clutch (C), brake (B), and throttle(T) will print out here and you can record the rest values when the pedals are not pressed and then the values at their maximum depression positions. It is normal if these numerical values are inverted.
+
+Modify the `g29_pedals_vjoy.py` script, between lines 17-23 with your values. These are example output from my G29 (note how my values are inverted) 
+
+```bash
+THROTTLE_MIN_RAW = 950
+THROTTLE_MAX_RAW = 65 
+BRAKE_MIN_RAW    = 970 
+BRAKE_MAX_RAW    = 300
+CLUTCH_MIN_RAW   = 930 
+CLUTCH_MAX_RAW   = 60 
+```
+
+Calibration will ensure that the program works withing the range of your specific G29 and adjusts for ADC of your unit. 
+
 
 ---
 
