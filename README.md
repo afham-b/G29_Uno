@@ -130,6 +130,7 @@ Connected to vJoy device 1
 **Inversion:**
 
 If pedals feel reversed (full press reads as low value), uncomment the inversion lines in the Arduino sketch:
+Using the Arduino IDE to modify `G29_Uno_Pedals.ino` , add in these lines: 
 
 ```bash
 clutchFilt   = 1023 - clutchFilt;
@@ -151,7 +152,9 @@ j.data.wAxisY = brake_v
 j.data.wAxisZ = clutch_v
 ```
 
-6. Troubleshooting
+---
+
+## 6. Troubleshooting
 
 Python error: “could not open port ‘COMx’: PermissionError(13)”
 Another program is using the COM port (likely Arduino Serial Monitor/Plotter). Close it and try again.
@@ -165,8 +168,11 @@ Serial Monitor shows nothing
 Confirm upload succeeded and Serial.begin(115200) matches the baud in Serial Monitor.
 Make sure the correct COM port is selected.
 
-License
-Use, modify, and share as you like.
-If you fork this or improve the mapping/calibration, feel free to open PRs or notes so others can benefit.
+
+---
+
+## License
+      Use, modify, and share as you like.
+      If you fork this or improve the mapping/calibration, feel free to open PRs or notes so others can benefit.
 
 
