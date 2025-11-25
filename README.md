@@ -156,17 +156,22 @@ j.data.wAxisZ = clutch_v
 
 ## 6. Troubleshooting
 
-Python error: “could not open port ‘COMx’: PermissionError(13)”
-Another program is using the COM port (likely Arduino Serial Monitor/Plotter). Close it and try again.
+Some possible and common errors: 
+
+Python Error 
+```bash
+ “could not open port ‘COMx’: PermissionError(13)
+```
+> Another program is using the COM port (likely Arduino Serial Monitor/Plotter). Close it and try again.
 
 No movement in Game Controllers
-Confirm the Python script is running without errors.
-Make sure vJoy Device 1 is enabled and has X/Y/Z axes.
-Check wiring on DB9 pins and Uno A0–A2/5V/GND.
+>Confirm the Python script is running without errors.
+>Make sure vJoy Device 1 is enabled and has X/Y/Z axes.
+>Check wiring on DB9 pins and Uno A0–A2/5V/GND.
 
 Serial Monitor shows nothing
-Confirm upload succeeded and Serial.begin(115200) matches the baud in Serial Monitor.
-Make sure the correct COM port is selected.
+>Confirm upload succeeded and Serial.begin(115200) matches the baud in Serial Monitor.
+>Make sure the correct COM port is selected.
 
 
 ---
