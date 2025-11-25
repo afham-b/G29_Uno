@@ -19,6 +19,15 @@ This bypasses Logitech G Hub, the original steering base, and any proprietary wi
 - A few jumper wires  
 
 ---
+Steps
+1) Wiring
+2) Arduino Setup
+3) Windows and vJoy
+4) Calibration and Tweaks
+5) How to Run
+6) Troubleshooting
+---
+
 
 ## 1. Wiring
 
@@ -102,30 +111,29 @@ pip install pyserial pyvjoy
 
 ---
 
-## 4. How to Run
+## 4. Calibration & Tweaks
 
-- Plug in the Uno with the G29 pedals connected.
-- Confirm the **COMx** port in Arduino IDE (Tools → Port), then update COM_PORT in `g29_pedals_vjoy.py`
-- Close the Arduino IDE (or at least close Serial Monitor/Plotter).
-
-From a terminal in the project folder:
+**Calibration:**
+Min and Max values for each pedal can be manually recorded using the Arduino IDE by compiling -> uploading the `G29_Uno_Pedals.ino` Sketch and opening Tool->Serial monitor and pressing the pedals 
 
 ```bash
-python g29_pedals_vjoy.py
+C: X  B: x  T: X 
 ```
+> Your output for clutch (C), brake (B), and throttle(T) will print out here and you can record the rest values when the pedals are not pressed and then the values at their maximum depression positions. It is normal if these numerical values are inverted.
 
-You should see:
+Modify the `g29_pedals_vjoy.py` script, between lines 17-23 with your values. These are example output from my G29 (note how my values are inverted) 
+
 ```bash
-Opening serial on COMx
-Connected to vJoy device 1
+THROTTLE_MIN_RAW = 950
+THROTTLE_MAX_RAW = 65 
+BRAKE_MIN_RAW    = 970 
+BRAKE_MAX_RAW    = 300
+CLUTCH_MIN_RAW   = 930 
+CLUTCH_MAX_RAW   = 60 
 ```
 
-### Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
-    Press each pedal and verify the corresponding axes move.
+Calibration will ensure that the program works withing the range of your specific G29 and adjusts for ADC of your unit. 
 
----
-
-## 5. Calibration & Tweaks
 
 **Axis mapping:**
 Change which vJoy axis each pedal uses by editing:
@@ -160,28 +168,29 @@ def apply_deadzone(v, threshold=0.02):
 ```
 >You can increase or decrese this parameter for a differnt or **NO** deadzone. 
 
-**Calibration:**
-Min and Max valeus for each pedal can be manually recorded using the Arduino IDE by compiling -> uploading the `G29_Uno_Pedals.ino` Sketch and opening Tool->Serial monitor 
+
+## 5. How to Run
+
+- Plug in the Uno with the G29 pedals connected.
+- Confirm the **COMx** port in Arduino IDE (Tools → Port), then update COM_PORT in `g29_pedals_vjoy.py`
+- Close the Arduino IDE (or at least close Serial Monitor/Plotter).
+
+From a terminal in the project folder:
 
 ```bash
-C: X  B: x  T: X 
+python g29_pedals_vjoy.py
 ```
-> Your output for clutch (C), brake (B), and throttle(T) will print out here and you can record the rest values when the pedals are not pressed and then the values at their maximum depression positions. It is normal if these numerical values are inverted.
 
-Modify the `g29_pedals_vjoy.py` script, between lines 17-23 with your values. These are example output from my G29 (note how my values are inverted) 
-
+You should see:
 ```bash
-THROTTLE_MIN_RAW = 950
-THROTTLE_MAX_RAW = 65 
-BRAKE_MIN_RAW    = 970 
-BRAKE_MAX_RAW    = 300
-CLUTCH_MIN_RAW   = 930 
-CLUTCH_MAX_RAW   = 60 
+Opening serial on COMx
+Connected to vJoy device 1
 ```
 
-Calibration will ensure that the program works withing the range of your specific G29 and adjusts for ADC of your unit. 
+### Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
+    Press each pedal and verify the corresponding axes move.
 
-
+---
 ---
 
 ## 6. Troubleshooting
