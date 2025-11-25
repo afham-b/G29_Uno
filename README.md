@@ -160,7 +160,7 @@ Some possible and common errors:
 
 Python Error 
 ```bash
- “could not open port ‘COMx’: PermissionError(13)
+ could not open port ‘COMx’: PermissionError(13)
 ```
 > Another program is using the COM port (likely Arduino Serial Monitor/Plotter). Close it and try again.
 
