@@ -188,7 +188,7 @@ Connected to vJoy device 1
 ```
 
 ### Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
-    Press each pedal and verify the corresponding axes move.
+Press each pedal and verify the corresponding axes move.
 
 ---
 ---
