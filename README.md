@@ -91,27 +91,36 @@ From your project directory (or globally), install the required Python packages:
 pip install pyserial pyvjoy
 ```
 
-g29_pedals_vjoy.py opens the Uno’s serial port, parses the pedal values, and writes them into vJoy axes.
+`g29_pedals_vjoy.py` opens the Uno’s serial port, parses the pedal values, and writes them into vJoy axes.
 
-You will need to edit the com port line in line 4 of the python script to match where your Uno is plugged in. 
-COM_PORT must match the Uno’s COM port (check in Arduino IDE under Tools → Port).
-Make sure the Arduino IDE’s Serial Monitor/Plotter is closed before running the script — only one program can open the COM port at a time.
+**You must edit the COM port line in line 4** of the Python script to match where your Uno is plugged in.
 
-4. How to Run
+- Find your Uno's COM port in the Arduino IDE (Tools → Port). Update the COM_PORT variable in `g29_pedals_vjoy.py`
 
-Plug in the Uno with the G29 pedals connected.
-Confirm the COM port in Arduino IDE (Tools → Port), then update COM_PORT in g29_pedals_vjoy.py.
-Close the Arduino IDE (or at least close Serial Monitor/Plotter).
+⚠️ Important: Make sure the Arduino IDE’s Serial Monitor/Plotter is closed before running the script—only one program can open the COM port at a time.
+
+
+---
+
+## 4. How to Run
+
+- Plug in the Uno with the G29 pedals connected.
+- Confirm the **COMx** port in Arduino IDE (Tools → Port), then update COM_PORT in `g29_pedals_vjoy.py`
+- Close the Arduino IDE (or at least close Serial Monitor/Plotter).
+
 From a terminal in the project folder:
 
+```bash
 python g29_pedals_vjoy.py
+```
 
 You should see:
+```bash
 Opening serial on COMx
 Connected to vJoy device 1
+```
 
-
-Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
+### Open Windows Game Controllers (Win + R → joy.cpl) and select vJoy Device:
 Press each pedal and verify the corresponding axes move.
 
 5. Calibration & Tweaks
